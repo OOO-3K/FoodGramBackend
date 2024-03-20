@@ -1,0 +1,8 @@
+FROM dpage/pgadmin4
+
+ENV PGADMIN_DEFAULT_EMAIL=pgAdmin@pg.com
+ENV PGADMIN_DEFAULT_PASSWORD=Password1234
+
+USER root
+
+EXPOSE 5555
