@@ -13,4 +13,8 @@ public class Recipe
     public double CookingTime { get; set; }
 
     public int? Rating { get; set; }
+
+    public ICollection<RecipeIngredient> Ingredients { get; set; }
+
+    public ICollection<RecipeStep> RecipeSteps { get; set; }
 }

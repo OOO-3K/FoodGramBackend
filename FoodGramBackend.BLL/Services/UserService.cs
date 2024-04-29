@@ -5,7 +5,7 @@ using FoodGramBackend.DAL.Entities;
 
 namespace FoodGramBackend.BLL.Services;
 
-public class UserService : IService<User>
+public class UserService : IUserService
 {
     private readonly IRepository<UserEntity> _repository;
     private readonly IMapper _mapper;

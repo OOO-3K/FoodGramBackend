@@ -13,6 +13,8 @@ namespace FoodGramBackend.DAL
         {
             services.AddScoped<IRepository<UserEntity>, UserRepository>();
             services.AddScoped<IRepository<RecipeEntity>, RecipeRepository>();
+            services.AddScoped<IRecipeIngredientRepository, RecipeIngredientRepository>();
+            services.AddScoped<IRepository<IngredientEntity>, IngredientRepository>();
             services.AddDbContext<FoodGramDbContext>(options =>
             {
                 options.UseNpgsql(configuration.GetConnectionString("FoodGramDb"));

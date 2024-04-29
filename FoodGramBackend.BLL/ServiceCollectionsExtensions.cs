@@ -13,8 +13,8 @@ namespace FoodGramBackend.BLL
         {
             services.RegisterRepositories(configuration);
             services.AddAutoMapper(typeof(MappingProfile));
-            services.AddScoped<IService<User>, UserService>();
-            services.AddScoped<IService<Recipe>, RecipeService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IRecipeService, RecipeService>();
             return services;
         }
     }

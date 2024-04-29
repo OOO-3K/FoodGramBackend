@@ -1,6 +1,6 @@
 @FoodGramBackend.Web_HostAddress = http://localhost:5266
 
-GET {{FoodGramBackend.Web_HostAddress}}/weatherforecast/
+GET {{FoodGramBackend.Web_HostAddress}}/api/home/users/
 Accept: application/json
 
 ###

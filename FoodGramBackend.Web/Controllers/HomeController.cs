@@ -10,10 +10,10 @@ namespace FoodGramBackend.Web.Controllers
     public class HomeController : ControllerBase
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IService<User> _userService;
-        private readonly IService<Recipe> _recipeService;
+        private readonly IUserService _userService;
+        private readonly IRecipeService _recipeService;
 
-        public HomeController(ILogger<HomeController> logger, IService<User> userService, IService<Recipe> recipeService)
+        public HomeController(ILogger<HomeController> logger, IUserService userService, IRecipeService recipeService)
         {
             _logger = logger;
             _userService = userService;
