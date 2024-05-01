@@ -8,7 +8,7 @@ public class RecipeStep
 
     public string Name { get; set; }
 
-    public string Decription { get; set; }
+    public string Description { get; set; }
 
     public string? ImagePath { get; set; }
 

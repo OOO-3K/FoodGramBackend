@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using FoodGramBackend.BLL.Models;
-using FoodGramBackend.DAL.DataAccess;
+using FoodGramBackend.DAL.DataAccess.Abstract;
 using FoodGramBackend.DAL.Entities;
 
 namespace FoodGramBackend.BLL.Services;

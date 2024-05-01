@@ -1,4 +1,5 @@
-﻿using FoodGramBackend.DAL.DataAccess;
+﻿using FoodGramBackend.DAL.DataAccess.Abstract;
+using FoodGramBackend.DAL.DataAccess.Repositories;
 using FoodGramBackend.DAL.DataContext;
 using FoodGramBackend.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -12,8 +13,9 @@ namespace FoodGramBackend.DAL
         public static IServiceCollection RegisterRepositories(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<IRepository<UserEntity>, UserRepository>();
-            services.AddScoped<IRepository<RecipeEntity>, RecipeRepository>();
+            services.AddScoped<IRecipeRepository, RecipeRepository>();
             services.AddScoped<IRecipeIngredientRepository, RecipeIngredientRepository>();
+            services.AddScoped<IRecipeStepRepository, RecipeStepRepository>();
             services.AddScoped<IRepository<IngredientEntity>, IngredientRepository>();
             services.AddDbContext<FoodGramDbContext>(options =>
             {

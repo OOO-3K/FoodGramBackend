@@ -1,7 +1,8 @@
-﻿using FoodGramBackend.DAL.DataContext;
+﻿using FoodGramBackend.DAL.DataAccess.Abstract;
+using FoodGramBackend.DAL.DataContext;
 using FoodGramBackend.DAL.Entities;
 
-namespace FoodGramBackend.DAL.DataAccess;
+namespace FoodGramBackend.DAL.DataAccess.Repositories;
 
 public class IngredientRepository : IRepository<IngredientEntity>
 {
@@ -17,4 +18,13 @@ public class IngredientRepository : IRepository<IngredientEntity>
         return _context.Ingredients.ToList();
     }
 
+    public void Save(IngredientEntity entity)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Update(IngredientEntity entity)
+    {
+        throw new NotImplementedException();
+    }
 }

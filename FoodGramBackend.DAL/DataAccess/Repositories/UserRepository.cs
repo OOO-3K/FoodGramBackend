@@ -1,8 +1,9 @@
-﻿using FoodGramBackend.DAL.DataContext;
+﻿using FoodGramBackend.DAL.DataAccess.Abstract;
+using FoodGramBackend.DAL.DataContext;
 using FoodGramBackend.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace FoodGramBackend.DAL.DataAccess;
+namespace FoodGramBackend.DAL.DataAccess.Repositories;
 
 public class UserRepository : IRepository<UserEntity>
 {
@@ -16,5 +17,15 @@ public class UserRepository : IRepository<UserEntity>
     public IEnumerable<UserEntity> GetAll()
     {
         return _context.Users.ToList();
+    }
+
+    public void Save(UserEntity entity)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Update(UserEntity entity)
+    {
+        throw new NotImplementedException();
     }
 }

@@ -33,5 +33,27 @@ namespace FoodGramBackend.Web.Controllers
             var recipes = _recipeService.GetAll();
             return Ok(JsonSerializer.Serialize(recipes));
         }
+
+        [HttpGet("recipes/{id}")]
+        public IActionResult GetRecipes(string id)
+        {
+            Guid recipeGuid = Guid.Empty;
+
+            if (!Guid.TryParse(id, out recipeGuid))
+            {
+                return NotFound();
+            }
+
+            var recipes = _recipeService.GetById(recipeGuid);
+
+            if (recipes == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(JsonSerializer.Serialize(recipes));
+            }
+        }
     }
 }

@@ -1,8 +1,9 @@
-﻿using FoodGramBackend.DAL.DataContext;
+﻿using FoodGramBackend.DAL.DataAccess.Abstract;
+using FoodGramBackend.DAL.DataContext;
 using FoodGramBackend.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace FoodGramBackend.DAL.DataAccess;
+namespace FoodGramBackend.DAL.DataAccess.Repositories;
 
 public class RecipeIngredientRepository : IRecipeIngredientRepository
 {
@@ -27,5 +28,15 @@ public class RecipeIngredientRepository : IRecipeIngredientRepository
     public IEnumerable<RecipeIngredientsEntity> GetByIngredientIds(List<Guid> ingredientIds)
     {
         return _context.RecipeIngredients.Where(x => ingredientIds.Contains(x.IngredientId)).ToList();
+    }
+
+    public void Update(RecipeIngredientsEntity entity)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Save(RecipeIngredientsEntity entity)
+    {
+        throw new NotImplementedException();
     }
 }
