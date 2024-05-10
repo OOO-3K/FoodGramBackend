@@ -1,5 +1,4 @@
 ﻿using FoodGramBackend.DAL.DataAccess.Abstract;
-using FoodGramBackend.DAL.DataContext;
 using FoodGramBackend.DAL.Entities;
 
 namespace FoodGramBackend.DAL.DataAccess.Repositories;

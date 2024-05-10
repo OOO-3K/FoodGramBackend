@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using FoodGramBackend.BLL.Models;
 using FoodGramBackend.DAL.Entities;
+using FoodGramBackend.DAL.Models;
 
-namespace FoodGramBackend.BLL;
+namespace FoodGramBackend.BLL.Mappings;
 
 public class MappingProfile : Profile
 {
@@ -22,5 +23,7 @@ public class MappingProfile : Profile
             .ForMember(x => x.Unit, opt => opt.MapFrom(ing => ing.Ingredient.Unit));
 
         CreateMap<RecipeStepEntity, RecipeStep>();
+
+        CreateMap<RecipeDbQuery, RecipeQuery>().ReverseMap();
     }
 }

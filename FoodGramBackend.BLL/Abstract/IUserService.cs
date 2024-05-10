@@ -1,8 +1,8 @@
 ﻿using FoodGramBackend.BLL.Models;
 
-namespace FoodGramBackend.BLL.Services;
+namespace FoodGramBackend.BLL.Abstract;
 
 public interface IUserService : IService<User>
 {
-    
+
 }

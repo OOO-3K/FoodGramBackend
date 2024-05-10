@@ -1,24 +1,20 @@
 ﻿using FoodGramBackend.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace FoodGramBackend.DAL.DataContext;
+namespace FoodGramBackend.DAL;
 
 public class FoodGramDbContext : DbContext
 {
-    public FoodGramDbContext()
-    {
-        
-    }
 
     public FoodGramDbContext(DbContextOptions<FoodGramDbContext> options) : base(options)
     {
-        
+
     }
 
     public DbSet<UserEntity> Users { get; set; }
     public DbSet<IngredientEntity> Ingredients { get; set; }
     public DbSet<RecipeEntity> Recipes { get; set; }
-    public DbSet<RecipeIngredientsEntity> RecipeIngredients { get;set; }
+    public DbSet<RecipeIngredientsEntity> RecipeIngredients { get; set; }
     public DbSet<ScoreEntity> Scores { get; set; }
     public DbSet<FavouriteEntity> Favourites { get; set; }
     public DbSet<RecipeStepEntity> RecipeSteps { get; set; }
@@ -41,7 +37,7 @@ public class FoodGramDbContext : DbContext
         });
         modelBuilder.Entity<RecipeIngredientsEntity>(entity =>
         {
-            entity.HasKey(e => new {e.IngredientId, e.RecipeId});
+            entity.HasKey(e => new { e.IngredientId, e.RecipeId });
         });
         modelBuilder.Entity<RecipeStepEntity>(entity =>
         {
@@ -49,11 +45,11 @@ public class FoodGramDbContext : DbContext
         });
         modelBuilder.Entity<ScoreEntity>(entity =>
         {
-            entity.HasKey(e => new {e.UserId, e.RecipeId});
+            entity.HasKey(e => new { e.UserId, e.RecipeId });
         });
         modelBuilder.Entity<FavouriteEntity>(entity =>
         {
-            entity.HasKey(e => new {e.UserId, e.RecipeId});
+            entity.HasKey(e => new { e.UserId, e.RecipeId });
         });
         modelBuilder.Entity<RecipeCommentEntity>(entity =>
         {

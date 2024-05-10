@@ -1,4 +1,4 @@
-﻿namespace FoodGramBackend.BLL.Services;
+﻿namespace FoodGramBackend.BLL.Abstract;
 
 public interface IService<T> where T : class
 {

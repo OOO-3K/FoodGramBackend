@@ -1,6 +1,5 @@
 ﻿using FoodGramBackend.DAL.DataAccess.Abstract;
 using FoodGramBackend.DAL.DataAccess.Repositories;
-using FoodGramBackend.DAL.DataContext;
 using FoodGramBackend.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -17,6 +16,7 @@ namespace FoodGramBackend.DAL
             services.AddScoped<IRecipeIngredientRepository, RecipeIngredientRepository>();
             services.AddScoped<IRecipeStepRepository, RecipeStepRepository>();
             services.AddScoped<IRepository<IngredientEntity>, IngredientRepository>();
+            services.AddScoped<IScoreRepository, ScoreRepository>();
             services.AddDbContext<FoodGramDbContext>(options =>
             {
                 options.UseNpgsql(configuration.GetConnectionString("FoodGramDb"));
