@@ -2,5 +2,5 @@
 
 public interface IService<T> where T : class
 {
-    public IEnumerable<T> GetAll();
+    public List<T> GetAll();
 }

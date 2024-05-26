@@ -9,10 +9,11 @@ namespace FoodGramBackend.BLL.Services;
 
 public class RecipeService : IRecipeService
 {
-    private readonly IRecipeRepository _repositoryRepository;
+    private readonly IRecipeRepository _recipeRepository;
     private readonly IRecipeIngredientRepository _recipeIngredientRepository;
     private readonly IRecipeStepRepository _recipeStepRepository;
     private readonly IScoreRepository _scoreRepository;
+    private readonly IFavouriteRepository _favouriteRepository;
     private readonly IMapper _mapper;
 
     public RecipeService(
@@ -20,18 +21,20 @@ public class RecipeService : IRecipeService
         IRecipeRepository recipeRepository, 
         IRecipeIngredientRepository recipeIngredientRepository, 
         IRecipeStepRepository recipeStepRepository,
-        IScoreRepository scoreRepository)
+        IScoreRepository scoreRepository,
+        IFavouriteRepository favouriteRepository)
     {
         _mapper = mapper;
-        _repositoryRepository = recipeRepository;
+        _recipeRepository = recipeRepository;
         _recipeIngredientRepository = recipeIngredientRepository;
         _recipeStepRepository = recipeStepRepository;
         _scoreRepository = scoreRepository;
+        _favouriteRepository = favouriteRepository;
     }
 
-    public IEnumerable<Recipe> GetAll()
+    public List<Recipe> GetAll()
     {
-        var recipes = _mapper.Map<List<RecipeEntity>, List<Recipe>>(_repositoryRepository.GetAll().ToList());
+        var recipes = _mapper.Map<List<RecipeEntity>, List<Recipe>>(_recipeRepository.GetAll().ToList());
 
         foreach (var recipe in recipes)
         {
@@ -42,9 +45,35 @@ public class RecipeService : IRecipeService
         return recipes;
     }
 
+    public List<Recipe> GetFavouriteRecipes(Guid userId)
+    {
+        var favourites = _mapper.Map<List<Favourite>>(_favouriteRepository.GetByQuery(new FavouriteDbQuery { UserId = userId }));
+
+        var recipes = _mapper.Map<List<Recipe>>(
+            _recipeRepository.GetByIds(favourites.Select(x => x.RecipeId)).ToList());
+
+        foreach (var recipe in recipes)
+        {
+            recipe.Ingredients = _mapper.Map<List<RecipeIngredient>>(_recipeIngredientRepository.GetByRecipeId(recipe.Id).ToList());
+            //UpdateRecipeCalculatingFields(recipe);
+        }
+
+        return recipes;
+    }
+
+    public void AddToFavourites(Favourite favourite)
+    {
+        _favouriteRepository.Save(_mapper.Map<FavouriteEntity>(favourite));
+    }
+
+    public void DeleteFromFavourites(Favourite favourite)
+    {
+        _favouriteRepository.Delete(_mapper.Map<FavouriteEntity>(favourite));
+    }
+
     public Recipe GetById(Guid id)
     {
-        var recipe = _mapper.Map<RecipeEntity, Recipe>(_repositoryRepository.GetById(id));
+        var recipe = _mapper.Map<RecipeEntity, Recipe>(_recipeRepository.GetById(id));
 
         if (recipe == null)
             return null;
@@ -56,9 +85,9 @@ public class RecipeService : IRecipeService
         return recipe;
     }
 
-    public IEnumerable<Recipe> GetByQuery(RecipeQuery recipeQuery)
+    public List<Recipe> GetByQuery(RecipeQuery recipeQuery)
     {
-        var recipes = _mapper.Map<List<Recipe>>(_repositoryRepository.GetByQuery(_mapper.Map<RecipeDbQuery>(recipeQuery)).ToList());
+        var recipes = _mapper.Map<List<Recipe>>(_recipeRepository.GetByQuery(_mapper.Map<RecipeDbQuery>(recipeQuery)).ToList());
 
         var recipesResult = new List<Recipe>();
 
@@ -105,7 +134,7 @@ public class RecipeService : IRecipeService
             if (recipe.CookingTime != cookingTime)
             {
                 recipe.CookingTime = cookingTime;
-                _repositoryRepository.Update(_mapper.Map<RecipeEntity>(recipe));
+                _recipeRepository.Update(_mapper.Map<RecipeEntity>(recipe));
             }
         }
     }
@@ -127,7 +156,7 @@ public class RecipeService : IRecipeService
             if (recipe.Rating != rating)
             {
                 recipe.Rating = rating;
-                _repositoryRepository.Update(_mapper.Map<RecipeEntity>(recipe));
+                _recipeRepository.Update(_mapper.Map<RecipeEntity>(recipe));
             }
         }
     }

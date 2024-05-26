@@ -1,6 +1,4 @@
-﻿using FoodGramBackend.DAL.Entities;
-
-namespace FoodGramBackend.BLL.Models;
+﻿namespace FoodGramBackend.BLL.Models;
 
 public class RecipeIngredient
 {

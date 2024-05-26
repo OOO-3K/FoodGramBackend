@@ -4,9 +4,11 @@ namespace FoodGramBackend.DAL.DataAccess.Abstract;
 
 public interface IRepository<T> where T : class
 {
-    IEnumerable<T> GetAll();
+    List<T> GetAll();
 
     void Update(T entity);
 
     void Save(T entity);
+
+    void Delete(T entity);
 }

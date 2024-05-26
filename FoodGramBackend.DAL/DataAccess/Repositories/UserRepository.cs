@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FoodGramBackend.DAL.DataAccess.Repositories;
 
-public class UserRepository : IRepository<UserEntity>
+public class UserRepository : IUserRepository
 {
     private readonly FoodGramDbContext _context;
 
@@ -13,7 +13,12 @@ public class UserRepository : IRepository<UserEntity>
         _context = context;
     }
 
-    public IEnumerable<UserEntity> GetAll()
+    public UserEntity GetById(Guid id)
+    {
+        return _context.Users.AsNoTracking().FirstOrDefault(x => x.Id == id);
+    }
+
+    public List<UserEntity> GetAll()
     {
         return _context.Users.ToList();
     }

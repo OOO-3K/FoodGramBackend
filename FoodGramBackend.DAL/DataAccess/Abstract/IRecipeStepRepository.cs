@@ -4,5 +4,5 @@ namespace FoodGramBackend.DAL.DataAccess.Abstract;
 
 public interface IRecipeStepRepository : IRepository<RecipeStepEntity>
 {
-    public IEnumerable<RecipeStepEntity> GetByRecipeId(Guid recipeId);
+    public List<RecipeStepEntity> GetByRecipeId(Guid recipeId);
 }

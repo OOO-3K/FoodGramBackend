@@ -1,4 +1,5 @@
-﻿using FoodGramBackend.DAL.DataAccess.Abstract;
+﻿using System.Net;
+using FoodGramBackend.DAL.DataAccess.Abstract;
 using FoodGramBackend.DAL.Entities;
 using FoodGramBackend.DAL.Models;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +15,7 @@ public class RecipeRepository : IRecipeRepository
         _context = context;
     }
 
-    public IEnumerable<RecipeEntity> GetAll()
+    public List<RecipeEntity> GetAll()
     {
         return _context.Recipes.AsNoTracking().ToList();
     }
@@ -24,7 +25,12 @@ public class RecipeRepository : IRecipeRepository
         return _context.Recipes.AsNoTracking().FirstOrDefault(x => x.Id == id);
     }
 
-    public IEnumerable<RecipeEntity> GetByQuery(RecipeDbQuery recipeDbQuery)
+    public List<RecipeEntity> GetByIds(IEnumerable<Guid> ids)
+    {
+        return _context.Recipes.AsNoTracking().Where(x => ids.Contains(x.Id)).ToList();
+    }
+
+    public List<RecipeEntity> GetByQuery(RecipeDbQuery recipeDbQuery)
     {
         var recipes = _context.Recipes.AsQueryable();
 
@@ -61,5 +67,10 @@ public class RecipeRepository : IRecipeRepository
     {
         _context.Recipes.Add(entity);
         _context.SaveChanges();
+    }
+
+    public void Delete(RecipeEntity entity)
+    {
+        throw new NotImplementedException();
     }
 }

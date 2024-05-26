@@ -12,7 +12,7 @@ public class IngredientRepository : IRepository<IngredientEntity>
         _context = context;
     }
 
-    public IEnumerable<IngredientEntity> GetAll()
+    public List<IngredientEntity> GetAll()
     {
         return _context.Ingredients.ToList();
     }
@@ -23,6 +23,11 @@ public class IngredientRepository : IRepository<IngredientEntity>
     }
 
     public void Update(IngredientEntity entity)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Delete(IngredientEntity entity)
     {
         throw new NotImplementedException();
     }

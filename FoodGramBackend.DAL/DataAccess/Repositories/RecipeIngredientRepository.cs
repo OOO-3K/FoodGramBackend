@@ -14,17 +14,17 @@ public class RecipeIngredientRepository : IRecipeIngredientRepository
         _context = context;
     }
 
-    public IEnumerable<RecipeIngredientsEntity> GetAll()
+    public List<RecipeIngredientsEntity> GetAll()
     {
         return _context.RecipeIngredients.ToList();
     }
 
-    public IEnumerable<RecipeIngredientsEntity> GetByRecipeId(Guid recipeId)
+    public List<RecipeIngredientsEntity> GetByRecipeId(Guid recipeId)
     {
         return _context.RecipeIngredients.Where(x => x.RecipeId == recipeId).Include(x => x.Ingredient).ToList();
     }
 
-    public IEnumerable<RecipeIngredientsEntity> GetByIngredientIds(List<Guid> ingredientIds)
+    public List<RecipeIngredientsEntity> GetByIngredientIds(List<Guid> ingredientIds)
     {
         return _context.RecipeIngredients.Where(x => ingredientIds.Contains(x.IngredientId)).ToList();
     }
@@ -35,6 +35,11 @@ public class RecipeIngredientRepository : IRecipeIngredientRepository
     }
 
     public void Save(RecipeIngredientsEntity entity)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Delete(RecipeIngredientsEntity entity)
     {
         throw new NotImplementedException();
     }

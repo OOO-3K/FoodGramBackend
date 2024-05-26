@@ -6,5 +6,6 @@ namespace FoodGramBackend.DAL.DataAccess.Abstract;
 public interface IRecipeRepository : IRepository<RecipeEntity>
 {
     public RecipeEntity GetById(Guid id);
-    public IEnumerable<RecipeEntity> GetByQuery(RecipeDbQuery recipeDbQuery);
+    public List<RecipeEntity> GetByIds(IEnumerable<Guid> ids);
+    public List<RecipeEntity> GetByQuery(RecipeDbQuery recipeDbQuery);
 }

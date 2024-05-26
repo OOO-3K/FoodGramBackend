@@ -9,21 +9,24 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        CreateMap<UserEntity, User>();
+        CreateMap<UserEntity, User>().ReverseMap();
 
-        CreateMap<RecipeEntity, Recipe>();
+        CreateMap<RecipeEntity, Recipe>().ReverseMap();
 
-        CreateMap<Recipe, RecipeEntity>();
-
-        CreateMap<IngredientEntity, Ingredient>();
+        CreateMap<IngredientEntity, Ingredient>().ReverseMap();
 
         CreateMap<RecipeIngredientsEntity, RecipeIngredient>()
             .ForMember(x => x.Id, opt => opt.MapFrom(ing => ing.Ingredient.Id))
             .ForMember(x => x.Name, opt => opt.MapFrom(ing => ing.Ingredient.Name))
-            .ForMember(x => x.Unit, opt => opt.MapFrom(ing => ing.Ingredient.Unit));
+            .ForMember(x => x.Unit, opt => opt.MapFrom(ing => ing.Ingredient.Unit))
+            .ReverseMap();
 
-        CreateMap<RecipeStepEntity, RecipeStep>();
+        CreateMap<RecipeStepEntity, RecipeStep>().ReverseMap();
 
         CreateMap<RecipeDbQuery, RecipeQuery>().ReverseMap();
+
+        CreateMap<FavouriteDbQuery, FavouriteQuery>().ReverseMap();
+
+        CreateMap<FavouriteEntity, Favourite>().ReverseMap();
     }
 }

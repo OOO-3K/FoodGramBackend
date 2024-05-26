@@ -8,18 +8,40 @@ namespace FoodGramBackend.BLL.Services;
 
 public class UserService : IUserService
 {
-    private readonly IRepository<UserEntity> _repository;
+    private readonly IUserRepository _repository;
     private readonly IMapper _mapper;
 
-    public UserService(IMapper mapper, IRepository<UserEntity> repository)
+    public UserService(IMapper mapper, IUserRepository repository)
     {
         _mapper = mapper;
         _repository = repository;
     }
 
-    public IEnumerable<User> GetAll()
+    public User GetByQuery(UserQuery userQuery)
     {
-        var users = _repository.GetAll();
-        return _mapper.Map<List<UserEntity>,List<User>>(users.ToList());
+        var user = _repository.GetById(userQuery.Id);
+
+        if (user == null)
+        {
+            return null;
+        }
+
+        if (!VerifyPassword(userQuery.Password, user.PasswordHash))
+        {
+            return null;
+        }
+
+        return _mapper.Map<User>(user);
+    }
+
+    public List<User> GetAll()
+    {
+        throw new NotImplementedException();
+    }
+
+    private bool VerifyPassword(string queryPassword, string dbPassword)
+    {
+        //TODO: change logic for hash check
+        return queryPassword == dbPassword;
     }
 }

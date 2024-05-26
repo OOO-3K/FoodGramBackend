@@ -4,6 +4,7 @@ using FoodGramBackend.BLL.Mappings;
 using FoodGramBackend.BLL.Models;
 using FoodGramBackend.BLL.Services;
 using FoodGramBackend.DAL;
+using FoodGramBackend.DAL.DataAccess.Abstract;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

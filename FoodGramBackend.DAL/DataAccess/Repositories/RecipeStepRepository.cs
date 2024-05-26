@@ -12,12 +12,12 @@ public class RecipeStepRepository : IRecipeStepRepository
         _context = context;
     }
 
-    public IEnumerable<RecipeStepEntity> GetAll()
+    public List<RecipeStepEntity> GetAll()
     {
         return _context.RecipeSteps.ToList();
     }
 
-    public IEnumerable<RecipeStepEntity> GetByRecipeId(Guid recipeId)
+    public List<RecipeStepEntity> GetByRecipeId(Guid recipeId)
     {
         return _context.RecipeSteps.Where(x => x.RecipeId == recipeId).OrderBy(x => x.StepNumber).ToList();
     }
@@ -28,6 +28,11 @@ public class RecipeStepRepository : IRecipeStepRepository
     }
 
     public void Update(RecipeStepEntity entity)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Delete(RecipeStepEntity entity)
     {
         throw new NotImplementedException();
     }

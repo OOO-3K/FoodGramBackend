@@ -12,12 +12,12 @@ public class ScoreRepository : IScoreRepository
         _context = context;
     }
 
-    public IEnumerable<ScoreEntity> GetAll()
+    public List<ScoreEntity> GetAll()
     {
         throw new NotImplementedException();
     }
 
-    public IEnumerable<ScoreEntity> GetByRecipeId(Guid recipeId)
+    public List<ScoreEntity> GetByRecipeId(Guid recipeId)
     {
         return _context.Scores.Where(x => x.RecipeId == recipeId).ToList();
     }
@@ -28,6 +28,11 @@ public class ScoreRepository : IScoreRepository
     }
 
     public void Update(ScoreEntity entity)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Delete(ScoreEntity entity)
     {
         throw new NotImplementedException();
     }
