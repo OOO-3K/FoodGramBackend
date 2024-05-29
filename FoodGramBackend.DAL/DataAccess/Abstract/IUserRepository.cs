@@ -5,4 +5,5 @@ namespace FoodGramBackend.DAL.DataAccess.Abstract;
 public interface IUserRepository
 {
     public UserEntity GetById(Guid id);
+    public UserEntity GetByName(string name);
 }

@@ -23,11 +23,11 @@ public class FavouriteRepository : IFavouriteRepository
     {
         var dbQuery = _context.Favourites.AsQueryable();
 
-        dbQuery.Where(x => x.UserId == favouriteDbQuery.UserId);
+        dbQuery = dbQuery.Where(x => x.UserId == favouriteDbQuery.UserId);
 
         if (favouriteDbQuery.RecipeId.HasValue)
         {
-            dbQuery.Where(x => x.RecipeId == favouriteDbQuery.RecipeId);
+            dbQuery = dbQuery.Where(x => x.RecipeId == favouriteDbQuery.RecipeId);
         }
 
         return dbQuery.ToList();

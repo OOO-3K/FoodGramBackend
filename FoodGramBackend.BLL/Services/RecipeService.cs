@@ -61,6 +61,16 @@ public class RecipeService : IRecipeService
         return recipes;
     }
 
+    public bool IsInFavourites(Favourite favourite)
+    {
+        var favouriteList = _favouriteRepository.GetByQuery(new FavouriteDbQuery
+        {
+            RecipeId = favourite.RecipeId,
+            UserId = favourite.UserId,
+        });
+        return favouriteList.Any();
+    }
+
     public void AddToFavourites(Favourite favourite)
     {
         _favouriteRepository.Save(_mapper.Map<FavouriteEntity>(favourite));

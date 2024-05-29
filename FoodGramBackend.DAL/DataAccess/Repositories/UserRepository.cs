@@ -18,6 +18,11 @@ public class UserRepository : IUserRepository
         return _context.Users.AsNoTracking().FirstOrDefault(x => x.Id == id);
     }
 
+    public UserEntity GetByName(string name)
+    {
+        return _context.Users.AsNoTracking().FirstOrDefault(x => x.Name.Trim() == name.Trim());
+    }
+
     public List<UserEntity> GetAll()
     {
         return _context.Users.ToList();

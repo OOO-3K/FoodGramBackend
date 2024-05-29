@@ -27,13 +27,13 @@ namespace FoodGramBackend.Web.Controllers
 
         [HttpPost("login")]
         [AllowAnonymous]
-        public async Task<IActionResult> Login([FromQuery] UserQuery userData)
+        public async Task<IActionResult> Login([FromBody] UserQuery userData)
         {
             var user = _userService.GetByQuery(userData);
 
             if (user == null)
             {
-                _logger.LogError($"Found no user with id: {userData.Id} and password: {userData.Password}.");
+                _logger.LogError($"Found no user with name: {userData.Name} and password: {userData.Password}.");
                 return Unauthorized();
             }
 

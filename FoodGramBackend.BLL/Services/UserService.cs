@@ -19,7 +19,7 @@ public class UserService : IUserService
 
     public User GetByQuery(UserQuery userQuery)
     {
-        var user = _repository.GetById(userQuery.Id);
+        var user = _repository.GetByName(userQuery.Name);
 
         if (user == null)
         {

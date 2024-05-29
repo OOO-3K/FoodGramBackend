@@ -5,27 +5,31 @@ using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using FoodGramBackend.BLL.Models;
 using Microsoft.AspNetCore.Authorization;
+using FoodGramBackend.BLL.Services;
 
 namespace FoodGramBackend.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class RecipesController : ControllerBase
     {
         private readonly ILogger<RecipesController> _logger;
         private readonly IRecipeService _recipeService;
         private readonly IMapper _mapper;
 
-        public RecipesController(ILogger<RecipesController> logger, IMapper mapper, IRecipeService recipeService)
+        private readonly User _testUser;
+
+        public RecipesController(ILogger<RecipesController> logger, IMapper mapper, IRecipeService recipeService, IUserService userService)
         {
             _logger = logger;
             _recipeService = recipeService;
             _mapper = mapper;
+            _testUser = userService.GetByQuery(new UserQuery { Name = "Nikita Golova", Password = "TestData" });
         }
 
         [HttpGet("{id}")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public IActionResult GetById(Guid id)
         {
             var recipes = _recipeService.GetById(id);
@@ -42,7 +46,7 @@ namespace FoodGramBackend.Web.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public IActionResult Get([FromQuery] RecipeQueryEm recipeQuery)
         {
             var ingredients = recipeQuery.Ingredients[0] ?? null;
@@ -70,10 +74,10 @@ namespace FoodGramBackend.Web.Controllers
         }
 
         [HttpGet("favourites")]
-        [Authorize]
+        //[Authorize]
         public IActionResult GetFavourites()
         {
-            var recipes = _recipeService.GetFavouriteRecipes(new Guid(HttpContext.User.Identity.Name));
+            var recipes = _recipeService.GetFavouriteRecipes(_testUser.Id);
 
             if (recipes == null)
             {
@@ -86,30 +90,55 @@ namespace FoodGramBackend.Web.Controllers
             }
         }
 
-        [HttpPut("addToFavourites/{recipeId}")]
-        [Authorize]
-        public IActionResult AddToFavourites(Guid recipeId)
+        [HttpGet("favourites/in/{recipeId}")]
+        //[Authorize]
+        public IActionResult IsInFavourites(Guid recipeId)
         {
-            _recipeService.AddToFavourites(new Favourite
-                {
-                    RecipeId = recipeId, 
-                    UserId = new Guid(HttpContext.User.Identity.Name)
-                });
-
-            return Ok();
-        }
-
-        [HttpDelete("deleteFromFavourites/{recipeId}")]
-        [Authorize]
-        public IActionResult DeleteFromFavourites(Guid recipeId)
-        {
-            _recipeService.DeleteFromFavourites(new Favourite
+            var result = _recipeService.IsInFavourites(new Favourite
             {
                 RecipeId = recipeId,
-                UserId = new Guid(HttpContext.User.Identity.Name)
+                UserId = _testUser.Id
             });
 
-            return Ok();
+            return Ok(JsonSerializer.Serialize(result));
+        }
+
+        [HttpPut("favourites/add/{recipeId}")]
+        //[Authorize]
+        public IActionResult AddToFavourites(Guid recipeId)
+        {
+            var favourite = new Favourite
+            {
+                RecipeId = recipeId,
+                UserId = _testUser.Id
+            };
+
+            if (!_recipeService.IsInFavourites(favourite))
+            {
+                _recipeService.AddToFavourites(favourite);
+                return Ok();
+            }
+
+            return BadRequest();
+        }
+
+        [HttpDelete("favourites/delete/{recipeId}")]
+        //[Authorize]
+        public IActionResult DeleteFromFavourites(Guid recipeId)
+        {
+            var favourite = new Favourite
+            {
+                RecipeId = recipeId,
+                UserId = _testUser.Id
+            };
+
+            if (_recipeService.IsInFavourites(favourite))
+            {
+                _recipeService.DeleteFromFavourites(favourite);
+                return Ok();
+            }
+
+            return BadRequest();
         }
     }
 }
