@@ -39,7 +39,6 @@ public class RecipeService : IRecipeService
         foreach (var recipe in recipes)
         {
             recipe.Ingredients = _mapper.Map<List<RecipeIngredient>>(_recipeIngredientRepository.GetByRecipeId(recipe.Id).ToList());
-            //UpdateRecipeCalculatingFields(recipe);
         }
 
         return recipes;
@@ -55,7 +54,6 @@ public class RecipeService : IRecipeService
         foreach (var recipe in recipes)
         {
             recipe.Ingredients = _mapper.Map<List<RecipeIngredient>>(_recipeIngredientRepository.GetByRecipeId(recipe.Id).ToList());
-            //UpdateRecipeCalculatingFields(recipe);
         }
 
         return recipes;
@@ -81,6 +79,40 @@ public class RecipeService : IRecipeService
         _favouriteRepository.Delete(_mapper.Map<FavouriteEntity>(favourite));
     }
 
+    public int GetScore(ScoreGetModel score)
+    {
+        var scoreList = _scoreRepository.GetByQuery(new ScoreDbQuery
+        {
+            RecipeId = score.RecipeId,
+            UserId = score.UserId,
+        });
+
+        if (!scoreList.Any())
+            return -1;
+
+        return scoreList[0].ScoreValue;
+    }
+
+    public bool SetScore(ScoreSetModel score)
+    {
+        var scoreList = _scoreRepository.GetByQuery(new ScoreDbQuery
+        {
+            RecipeId = score.RecipeId,
+            UserId = score.UserId,
+        });
+
+        if (!scoreList.Any())
+            return false;
+
+        scoreList[0].ScoreValue = score.ScoreValue;
+
+        _scoreRepository.Update(scoreList[0]);
+
+        CalculateRating(_mapper.Map<Recipe>(_recipeRepository.GetById(score.RecipeId)));
+
+        return true;
+    }
+
     public Recipe GetById(Guid id)
     {
         var recipe = _mapper.Map<RecipeEntity, Recipe>(_recipeRepository.GetById(id));
@@ -90,7 +122,6 @@ public class RecipeService : IRecipeService
         
         recipe.Ingredients = _mapper.Map<List<RecipeIngredient>>(_recipeIngredientRepository.GetByRecipeId(recipe.Id).ToList());
         recipe.RecipeSteps = _mapper.Map<List<RecipeStep>>(_recipeStepRepository.GetByRecipeId(recipe.Id)).ToList();
-        //UpdateRecipeCalculatingFields(recipe);
 
         return recipe;
     }
@@ -118,7 +149,6 @@ public class RecipeService : IRecipeService
                     }
                 }
             }
-            //UpdateRecipeCalculatingFields(recipe);
         }
 
         return recipesResult;
@@ -151,7 +181,7 @@ public class RecipeService : IRecipeService
 
     private void CalculateRating(Recipe recipe)
     {
-        var scoreList = _scoreRepository.GetByRecipeId(recipe.Id);
+        var scoreList = _scoreRepository.GetByQuery(new ScoreDbQuery{ RecipeId = recipe.Id });
 
         if (scoreList.Any())
         {

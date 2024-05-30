@@ -140,5 +140,48 @@ namespace FoodGramBackend.Web.Controllers
 
             return BadRequest();
         }
+
+        [HttpGet("scores/get/{recipeId}")]
+        //[Authorize]
+        public IActionResult GetScores(Guid recipeId)
+        {
+            var score = _recipeService.GetScore(new ScoreGetModel
+            {
+                RecipeId = recipeId, 
+                UserId = _testUser.Id
+            });
+
+            if (score == null)
+            {
+                _logger.LogError("Couldn't get recipe score.");
+                return NotFound();
+            }
+            else
+            {
+                return Ok(JsonSerializer.Serialize(score));
+            }
+        }
+
+        [HttpPost("scores/set/")]
+        //[Authorize]
+        public IActionResult SetScores([FromBody] ScoreQueryEm scoreQuery)
+        {
+            var result = _recipeService.SetScore(new ScoreSetModel
+            {
+                RecipeId = scoreQuery.RecipeId,
+                UserId = _testUser.Id,
+                ScoreValue = scoreQuery.ScoreValue
+            });
+
+            if (!result)
+            {
+                _logger.LogError("Couldn't set recipe score.");
+                return NotFound();
+            }
+            else
+            {
+                return Ok();
+            }
+        }
     }
 }

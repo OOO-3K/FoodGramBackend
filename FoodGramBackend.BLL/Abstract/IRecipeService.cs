@@ -9,5 +9,7 @@ public interface IRecipeService : IService<Recipe>
     public bool IsInFavourites(Favourite favourite);
     public void AddToFavourites(Favourite favourite);
     public void DeleteFromFavourites(Favourite favourite);
+    public int GetScore(ScoreGetModel score);
+    public bool SetScore(ScoreSetModel score);
     public List<Recipe> GetByQuery(RecipeQuery recipeQuery);
 }

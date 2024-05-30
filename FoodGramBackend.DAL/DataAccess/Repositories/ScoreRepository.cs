@@ -1,5 +1,6 @@
 ﻿using FoodGramBackend.DAL.DataAccess.Abstract;
 using FoodGramBackend.DAL.Entities;
+using FoodGramBackend.DAL.Models;
 
 namespace FoodGramBackend.DAL.DataAccess.Repositories;
 
@@ -17,9 +18,18 @@ public class ScoreRepository : IScoreRepository
         throw new NotImplementedException();
     }
 
-    public List<ScoreEntity> GetByRecipeId(Guid recipeId)
+    public List<ScoreEntity> GetByQuery(ScoreDbQuery scoreDbQuery)
     {
-        return _context.Scores.Where(x => x.RecipeId == recipeId).ToList();
+        var dbQuery = _context.Scores.AsQueryable();
+
+        if (scoreDbQuery.UserId.HasValue)
+        {
+            dbQuery = dbQuery.Where(x => x.UserId == scoreDbQuery.UserId);
+        }
+
+        dbQuery = dbQuery.Where(x => x.RecipeId == scoreDbQuery.RecipeId);
+
+        return dbQuery.ToList();
     }
 
     public void Save(ScoreEntity entity)
@@ -29,7 +39,8 @@ public class ScoreRepository : IScoreRepository
 
     public void Update(ScoreEntity entity)
     {
-        throw new NotImplementedException();
+        _context.Scores.Update(entity);
+        _context.SaveChanges();
     }
 
     public void Delete(ScoreEntity entity)
